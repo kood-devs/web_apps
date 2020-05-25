@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <div class="container">
+        <h1>株式リターン騰落予測アプリ</h1>
+        <p class="lead">モデルを削除する確認フォーム。</p>
+    </div>
+{% endblock header %}
+
+{% block content %}
+<div class='container'>
+    <div class="alert alert-primary" role="alert">
+        <p class="lead">本当に削除しますか？</p>
+        <form action='' method="POST">{% csrf_token %}
+            <input type="submit" value='削除します'>
+        </form>
+    </div>
+    <a href="{{request.META.HTTP_REFERER}}">前の画面に戻る</a>
+</div>
+{% endblock content %}
