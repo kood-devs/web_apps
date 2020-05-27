@@ -8,7 +8,7 @@
     <div class="container">
         <h1><font size="7">日経新聞スクレイピング</font></h1>
         <p>
-            日経新聞電子版の最新のニュースを収集するウェブアプリの試作品です。<br>
+            日経新聞電子版の最新のニュースを収集するウェブアプリの試作品です。<br/>
             将来的には，個別ニュース記事の詳細表示，ジャンル分け，並列化による更新，
             自然言語処理の応用などの拡張を行う予定です。
         </p>
@@ -22,8 +22,10 @@
     <p style="margin-bottom: 1.5em;"></p>
         {% for context in context_list %}
             <article>
-                <h3 class="lead">
-                    <a target="_blank" href="{{ context.link }}">{{ context.title }}</a>
+                <h3>
+                    <font size="4">
+                        <a target="_blank" href="{{ context.link }}">{{ context.title }}</a>
+                    </font>
                 </h3>
                 <p>{{ context.content }}</p>
             </article>
