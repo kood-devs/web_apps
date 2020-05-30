@@ -19,16 +19,31 @@
 {% block content %}
 <div class='container'>
     <h2><font size="5">ニュース一覧</font></h2>
+        {% comment %} <ul class="nav tab-group">
+            {% for category, _ in all_context_list.items %}
+                <li><a href="#{{ category }}" data-toggle="tab">{{ category }}</a></li>
+            {% endfor %}
+        </ul> {% endcomment %}
     <p style="margin-bottom: 1.5em;"></p>
-        {% for context in context_list %}
-            <article>
-                <h3>
-                    <font size="4">
-                        <a target="_blank" href="{{ context.link }}">{{ context.title }}</a>
-                    </font>
-                </h3>
-                <p>{{ context.content }}</p>
-            </article>
+
+    {% comment %} <div class="tab-content"> {% endcomment %}
+        {% comment %} {% for category, context_list in all_context_list.items %} {% endcomment %}
+        {% for category, context_list in all_context_list %}
+            {% comment %} <div class="tab-pane" id="{{ category.typology }}"> {% endcomment %}
+            {% comment %} <div class="tab-pane" id="top"> {% endcomment %}
+                <h2>{{ category }}</h2>
+                <article>
+                {% for context in context_list %}
+                    <h3>
+                        <font size="4">
+                            <a target="_blank" href={{ context.link }}>{{ context.title }}</a>
+                        </font>
+                    </h3>
+                    <p>{{ context.content }}</p>
+                {% endfor %}
+                </article>
+            {% comment %} </div> {% endcomment %}
         {% endfor %}
+    {% comment %} </div> {% endcomment %}
 </div>
 {% endblock content %}
