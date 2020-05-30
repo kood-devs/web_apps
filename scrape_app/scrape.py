@@ -9,14 +9,7 @@ import numpy as np
 
 # const params
 URL_INIT = 'https://www.nikkei.com/'
-NEWS_LENGTH = 10
-# NIKKEI_CATEGORY = [
-#     'news/category/',
-#     'economy/economic/',
-#     'economy/monetary/',
-#     'business/internet/',
-#     'business/startups/',
-# ]
+NEWS_LENGTH = 20
 
 
 def reshape_so_text(text):

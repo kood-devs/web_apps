@@ -19,19 +19,12 @@
 {% block content %}
 <div class='container'>
     <h2><font size="5">ニュース一覧</font></h2>
-        {% comment %} <ul class="nav tab-group">
-            {% for category, _ in all_context_list.items %}
-                <li><a href="#{{ category }}" data-toggle="tab">{{ category }}</a></li>
-            {% endfor %}
-        </ul> {% endcomment %}
-    <p style="margin-bottom: 1.5em;"></p>
-
-    {% comment %} <div class="tab-content"> {% endcomment %}
-        {% comment %} {% for category, context_list in all_context_list.items %} {% endcomment %}
-        {% for category, context_list in all_context_list %}
-            {% comment %} <div class="tab-pane" id="{{ category.typology }}"> {% endcomment %}
-            {% comment %} <div class="tab-pane" id="top"> {% endcomment %}
-                <h2>{{ category }}</h2>
+    {% comment %} https://web.monogusa-note.com/flexible-tabs-only-css {% endcomment %}
+    <div class="tab-wrap">
+        {% for category_id, category_name, context_list in all_context_list %}
+            <input id="{{ category_id }}" type="radio" name="TAB" class="tab-switch"/><label class="tab-label" for="{{ category_id }}">{{ category_name }}</label>
+            <div class="tab-content">
+                <h2 class="news_title"><font size="5">{{ category_name }}</font></h2>
                 <article>
                 {% for context in context_list %}
                     <h3>
@@ -42,8 +35,8 @@
                     <p>{{ context.content }}</p>
                 {% endfor %}
                 </article>
-            {% comment %} </div> {% endcomment %}
+            </div>
         {% endfor %}
-    {% comment %} </div> {% endcomment %}
+    </div>
 </div>
 {% endblock content %}

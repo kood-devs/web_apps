@@ -6,11 +6,14 @@ from .models import Article
 from .scrape import *
 
 nikkei_category = {
-    # '速報': 'news/category/',
-    '経済': 'economy/economic/',
-    '金融': 'economy/monetary/',
-    'インターネット': 'business/internet/',
-    'スタートアップ': 'business/startups/',
+    # 'de': ['search?keyword=国内株式', '国内株式'],
+    'economic': ['economy/economic/', '経済'],
+    'monetary': ['economy/monetary/', '金融機関'],
+    'politics': ['politics/politics/', '政治'],
+    'startups': ['business/startups/', 'スタートアップ'],
+    'internet': ['business/internet/', 'ネット・IT'],
+    'ai': ['technology/ai/', 'AI'],
+    'fintech': ['technology/fintech/', 'フィンテック'],
 }
 
 
@@ -20,7 +23,8 @@ class ArticleList(TemplateView):
 
     def get(self, request):
         all_context_list = []
-        for category_name, category_path in nikkei_category.items():
+        for category_id, category_content in nikkei_category.items():
+            category_path, category_name = category_content
             context_list = []
             article = scrape_nikkei(category_path)
             for key, value in article.items():
@@ -29,6 +33,5 @@ class ArticleList(TemplateView):
                     'content': value[0],
                     'link': value[1],
                 })
-            # all_context_list.append(context_list)
-            all_context_list.append([category_name, context_list])
-        return render(request, 'scrape_main.html', {'all_context_list': all_context_list,})
+            all_context_list.append([category_id, category_name, context_list])
+        return render(request, 'scrape_main.html', {'all_context_list': all_context_list, })
