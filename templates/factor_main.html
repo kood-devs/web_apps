@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<nav class="navbar navbar-expand-md">
+    <div class="collapse navbar-collapse" id="bs-navi">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="nav-link-dropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Menu</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'scrape_app:scrape_main' %}">1．ニューススクレイピングアプリ</a>
+                    <a class="dropdown-item" href="{% url 'forecast_app:forecast_main' %}">2．市場天気予報アプリ</a>
+                    <a class="dropdown-item" href="{% url 'index' %}">3．市場変動要因分解アプリ</a>
+                    <a class="dropdown-item" href="{% url 'dnn_estimate_app:dnn_est_main' %}">DNN（旧）</a>
+                </div>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>
+            <font size="7">市場変動要因分解アプリ</font>
+        </h1>
+        <p>
+            アロケーションの市場変動をファクターごとに要因分解するアプリです。<br />
+            将来的には、登録したポートフォリオの日次変動要因分解、
+            ポートフォリオのバックテスト、将来シミュレーション機能などの拡張を行う予定です。
+        </p>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class='container'>
+    <h2>
+        <font size="5">20XX年X月X日の分解結果</font>
+    </h2>
+    <canvas id="factor-chart"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'js/factor-chart.js' %}"></script> {% endcomment %}
+    <script>
+        var ctx = document.getElementById('factor-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['国内株式', '国内債券', '先進国株式', '先進国債券'],
+                datasets: [{
+                    label: 'バリュー',
+                    backgroundColor: "indianred",
+                    borderColor: "indianred",
+                    borderWidth: 1,
+                    data: [3.0, 0.5, 3.5, 1.0],
+                },
+                {
+                    label: 'サイズ',
+                    backgroundColor: "lightskyblue",
+                    borderColor: "lightskyblue",
+                    borderWidth: 1,
+                    data: [-1.0, -0.5, -1.0, -0.5],
+                },
+                {
+                    label: 'モメンタム',
+                    backgroundColor: "lightgreen",
+                    borderColor: "lightgreen",
+                    borderWidth: 1,
+                    data: [0.2, 0.1, 0.4, 0.1],
+                },
+                {
+                    label: 'クオリティ',
+                    backgroundColor: "lightyellow",
+                    borderColor: "lightyellow",
+                    borderWidth: 1,
+                    data: [1.0, 0.4, 1.1, 0.5],
+                },
+                {
+                    label: 'その他',
+                    backgroundColor: "darkgray",
+                    borderColor: "darkgray",
+                    borderWidth: 1,
+                    data: [0.1, -0.1, 0.1, -0.1],
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'ファクター分解', //グラフの見出し
+                    padding: 10
+                },
+                scales: {
+                    xAxes: [{
+                        stacked: true, //積み上げ棒グラフにする設定
+                        categoryPercentage: 0.4, //棒グラフの太さ
+                    }],
+                    yAxes: [{
+                        stacked: true, //積み上げ棒グラフにする設定
+                        scaleLabel: {                       // 軸ラベル
+                            display: true,                  // 表示設定
+                            labelString: "寄与度（％）",     // ラベル
+                            fontColor: "black",             // 文字の色
+                            fontSize: 16                    // フォントサイズ
+                        },
+                    }]
+                },
+                legend: {
+                    labels: {
+                        boxWidth: 30,
+                        padding: 20 //凡例の各要素間の距離
+                    },
+                    display: true
+                },
+                tooltips: {
+                    mode: 'label' //マウスオーバー時に表示されるtooltip
+                }
+            },
+        });
+    </script>
+
+</div>
+
+<footer class="footer mt-auto py-2">
+    <div class="footer-text">
+        <font size="2">Copyright 2020</font>
+    </div>
+</footer>
+{% endblock content %}

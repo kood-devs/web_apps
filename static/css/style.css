@@ -1,11 +1,55 @@
-/* whole home pages */
+/* -----------------------------------------
+    whole home pages
+----------------------------------------- */
 
 body {
     /* font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; */
     font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
 }
 
-/* css for news app */
+nav {
+    background-color: #35357d;
+}
+
+.nav-link {
+    color: lightgray;
+}
+
+#nav-link-dropdown {
+    color: lightgray;
+}
+
+.jumbotron {
+    background-color: azure;
+}
+
+footer {
+    background-color: #35357d;
+}
+
+.footer-text {
+    color: lightgrey;
+    text-align: center;
+}
+
+/* -----------------------------------------
+    css for top page
+----------------------------------------- */
+
+.index-content {
+    background-color: white;
+    margin-bottom: 50px;
+}
+
+.index-title {
+    color: darkblue;
+    font-weight: bolder;
+    text-decoration: underline;
+}
+
+/* -----------------------------------------
+    css for news app
+----------------------------------------- */
 
 article {
     background-color: azure;
@@ -18,8 +62,6 @@ article {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-
-/* news tab */
 
 .tab-wrap {
     display: flex;
@@ -63,13 +105,13 @@ article {
     opacity: 0;
 }
 
-/* アクティブなタブ */
-
 .tab-switch:checked+.tab-label {
+    /* アクティブなタブ */
     background: DeepSkyBlue;
 }
 
 .tab-switch:checked+.tab-label+.tab-content {
+    /* アクティブなタブ */
     height: auto;
     overflow: auto;
     padding: 15px;
@@ -78,8 +120,50 @@ article {
     box-shadow: 0 0 3px rgba(0, 0, 0, .2);
 }
 
-/* ラジオボタン非表示 */
-
 .tab-switch {
+    /* ラジオボタン非表示 */
     display: none;
+}
+
+/* -----------------------------------------
+    css for forecast app
+----------------------------------------- */
+
+.card-img {
+    text-align: center;
+}
+
+.card-body {
+    background-color: azure;
+}
+
+.forecast-menu {
+    width: 90%;
+    padding: 3px;
+}
+
+/* table */
+
+table {
+    width: 100%;
+    font-size: 10pt;
+}
+
+th {
+    color: midnightblue;
+    background-color: azure;
+}
+
+.stock-price {
+    display: flex;
+    vertical-align: baseline;
+}
+
+/* -----------------------------------------
+    css for factor app
+----------------------------------------- */
+
+.factor-img {
+    width: 100%;
+    text-align: center;
 }

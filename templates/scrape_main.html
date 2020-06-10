@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<nav class="navbar navbar-dark" style="background-color:#35357d;">
-    <a href="{% url 'index' %}">Home</a>
+<nav class="navbar navbar-expand-md">
+    <div class="collapse navbar-collapse" id="bs-navi">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="nav-link-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'scrape_app:scrape_main' %}">1．ニューススクレイピングアプリ</a>
+                    <a class="dropdown-item" href="{% url 'forecast_app:forecast_main' %}">2．市場天気予報アプリ</a>
+                    <a class="dropdown-item" href="{% url 'index' %}">3．市場変動要因分解アプリ</a>
+                    <a class="dropdown-item" href="{% url 'dnn_estimate_app:dnn_est_main' %}">DNN（旧）</a>
+                </div>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Contact</a></li>
+        </ul>
+    </div>
 </nav>
+
 <div class="jumbotron">
     <div class="container">
-        <h1><font size="7">日経新聞スクレイピング</font></h1>
+        <h1><font size="7">ニューススクレイピングアプリ</font></h1>
         <p>
             日経新聞電子版の最新のニュースを収集するウェブアプリの試作品です。<br/>
-            将来的には，個別ニュース記事の詳細表示，ジャンル分け，並列化による更新，
+            将来的には、他のニュースメディアからの取得、個別ニュース記事の詳細表示、ジャンル分け、
             自然言語処理の応用などの拡張を行う予定です。
         </p>
     </div>
@@ -22,7 +37,11 @@
     {% comment %} https://web.monogusa-note.com/flexible-tabs-only-css {% endcomment %}
     <div class="tab-wrap">
         {% for category_id, category_name, context_list in all_context_list %}
-            <input id="{{ category_id }}" type="radio" name="TAB" class="tab-switch"/><label class="tab-label" for="{{ category_id }}">{{ category_name }}</label>
+            {% if forloop.first %}
+                <input id="{{ category_id }}" type="radio" name="TAB" class="tab-switch" checked="checked"/><label class="tab-label" for="{{ category_id }}">{{ category_name }}</label>
+            {% else %}
+                <input id="{{ category_id }}" type="radio" name="TAB" class="tab-switch"/><label class="tab-label" for="{{ category_id }}">{{ category_name }}</label>
+            {% endif %}
             <div class="tab-content">
                 <h2 class="news_title"><font size="5">{{ category_name }}</font></h2>
                 <article>
@@ -39,4 +58,8 @@
         {% endfor %}
     </div>
 </div>
+
+<footer class="footer mt-auto py-2">
+    <div class="footer-text"><font size="2">Copyright 2020</font></div>
+</footer>
 {% endblock content %}

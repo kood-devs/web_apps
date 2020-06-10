@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'scrape_app',
+    'forecast_app',
+    'factor_app',
     'dnn_estimate_app',
 ]
 
@@ -128,3 +131,7 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+
+USE_THOUSAND_SEPARATOR = True
+
+NUMBER_GROUPING = 3

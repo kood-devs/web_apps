@@ -6,7 +6,7 @@ from .models import Article
 from .scrape import *
 
 nikkei_category = {
-    # 'de': ['search?keyword=国内株式', '国内株式'],
+    # 'de': ['search?keyword=国内株式', '国内株式'],  # 左記のようにしたいが…
     'economic': ['economy/economic/', '経済'],
     'monetary': ['economy/monetary/', '金融機関'],
     'politics': ['politics/politics/', '政治'],
