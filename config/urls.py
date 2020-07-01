@@ -10,5 +10,4 @@ urlpatterns = [
     path('scrape_app/', include('scrape_app.urls')),
     path('forecast_app/', include('forecast_app.urls')),
     path('factor_app/', include('factor_app.urls')),
-    path('dnn_estimate_app/', include('dnn_estimate_app.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

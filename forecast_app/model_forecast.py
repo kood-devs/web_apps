@@ -8,7 +8,8 @@ import numpy as np
 import pandas as pd
 import pandas_datareader.data as pdr
 import matplotlib.pyplot as plt
-from keras import models, layers
+from keras.models import Sequential
+from keras.layers import Dense
 
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
@@ -32,10 +33,8 @@ EXCHANGES = [
     ['AORD', '^AORD'],  # Australia
 ]
 
-
 MODEL_LIST = [
     "DNN",
-    "RNN",
     "binomial logit",
     "SVC",
     "kernel SVC",
@@ -43,15 +42,16 @@ MODEL_LIST = [
 ]
 
 
-def get_recent_index():
+def get_recent_index(num_week=2):
     # 終値を取得
     close_price = pd.DataFrame()
-    date_start = datetime.today() - timedelta(weeks=1)
+    date_start = datetime.today() - timedelta(weeks=num_week)
     date_end = datetime.today()
     for name in EXCHANGES:
         close_price[name[0]] = pdr.DataReader(
             name[1], 'yahoo', date_start, date_end)['Close']
-    # close_price = close_price.fillna(method='ffill')
+    close_price = close_price.fillna(method='ffill')
+    close_price = close_price.dropna()
     close_price = close_price.round(2)
     return close_price
 
@@ -105,12 +105,12 @@ def learn_model(model_type, x_train, y_train):
     """
     if model_type == "DNN":  # DNN
         # モデル構成
-        model = models.Sequential()
-        model.add(layers.Dense(32, activation='relu',
-                               input_shape=(x_train.shape[1],)))
-        model.add(layers.Dense(32, activation='relu'))
-        model.add(layers.Dense(1, activation='sigmoid'))
-        model.compile(optimizer='rmsprop',
+        model = Sequential()
+        model.add(Dense(32, activation='relu',
+                        input_shape=(x_train.shape[1],)))
+        model.add(Dense(32, activation='relu'))
+        model.add(Dense(1, activation='sigmoid'))
+        model.compile(optimizer='adam',
                       loss='binary_crossentropy', metrics=['accuracy'])
         model.fit(x_train, y_train, epochs=EPOCH, batch_size=BATCH_SIZE)
         # 正答率

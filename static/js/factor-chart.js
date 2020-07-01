@@ -1,58 +1,63 @@
-var ctx = document.getElementById('factor-chart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
+// data preparation
+var graphLabel = [];
+var colName = document.getElementById("indexCols").value;
+var indexData = document.getElementById("indexData").value.split('\n');
+const colorList = ['tomato', 'cornflowerblue', 'lightgreen', 'khaki', 'darkorange', 'hotpink', 'darkgoldenrod', 'darkred', 'slategray'];
+
+// 
+colName = colName.split('\'');
+var id = [];
+for (var i = 0; i < colName.length; i++) {
+    if (colName[i].length > 2) {
+        id.push(colName[i]);
+    }
+}
+colName = id.slice(1);
+
+indexData = indexData.slice(2);
+for (var i = 0; i < indexData.length; i++) {
+    graphLabel.push(indexData[i].split(' ')[0]);
+    var id = [];
+    var r = indexData[i].split(' ');
+    for (var j = 0; j < r.length; j++) {
+        if (r[j] !== '') {
+            id.push(Number(r[j]));
+        }
+    }
+    indexData[i] = id.slice(1);
+}
+
+// transpose data
+const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+indexData = transpose(indexData);
+
+// set graph data
+var allData = [];
+for (var i = 0; i < indexData.length; i++) {
+    allData.push({
+        label: colName[i],
+        borderColor: colorList[i],
+        backgroundColor: colorList[i],
+        borderWidth: 3,
+        data: indexData[i],
+        lineTension: 0,
+        fill: false,
+    });
+}
+
+// main
+var ctxAsset = document.getElementById('index-graph').getContext('2d');
+var chartAsset = new Chart(ctxAsset, {
+    type: 'line',
     data: {
-        labels: ['国内株式', '国内債券', '先進国株式', '先進国債券'],
-        datasets: [{
-            label: 'バリュー',
-            backgroundColor: "red",
-            borderColor: "red",
-            borderWidth: 1,
-            data: [3.0, 0.5, 3.5, 1.0],
-        },
-        {
-            label: 'サイズ',
-            backgroundColor: "blue",
-            borderColor: "blue",
-            borderWidth: 1,
-            data: [-1.0, -0.5, -1.0, -0.5],
-        },
-        {
-            label: 'モメンタム',
-            backgroundColor: "green",
-            borderColor: "green",
-            borderWidth: 1,
-            data: [0.2, 0.1, 0.4, 0.1],
-        },
-        {
-            label: 'クオリティ',
-            backgroundColor: "yellow",
-            borderColor: "yellow",
-            borderWidth: 1,
-            data: [1.0, 0.4, 1.1, 0.5],
-        },
-        {
-            label: 'その他',
-            backgroundColor: "gray",
-            borderColor: "gray",
-            borderWidth: 1,
-            data: [0.1, -0.1, 0.1, -0.1],
-        }]
+        labels: graphLabel,
+        datasets: allData,
     },
     options: {
         title: {
             display: true,
-            text: 'ファクター分解', //グラフの見出し
-            padding: 3
-        },
-        scales: {
-            xAxes: [{
-                stacked: true, //積み上げ棒グラフにする設定
-                categoryPercentage: 0.4 //棒グラフの太さ
-            }],
-            yAxes: [{
-                stacked: true //積み上げ棒グラフにする設定
-            }]
+            text: 'インデックス推移', //グラフの見出し
+            padding: 5
         },
         legend: {
             labels: {

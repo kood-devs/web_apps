@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block header %}
 <nav class="navbar navbar-expand-md">
@@ -11,7 +12,6 @@
                     <a class="dropdown-item" href="{% url 'scrape_app:scrape_main' %}">1．ニューススクレイピングアプリ</a>
                     <a class="dropdown-item" href="{% url 'forecast_app:forecast_main' %}">2．市場天気予報アプリ</a>
                     <a class="dropdown-item" href="{% url 'index' %}">3．市場変動要因分解アプリ</a>
-                    <a class="dropdown-item" href="{% url 'dnn_estimate_app:dnn_est_main' %}">DNN（旧）</a>
                 </div>
             </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Contact</a></li>
@@ -67,8 +67,15 @@
             <font size="5">世界の株価推移</font>
             <font size="3">　※終値ベース。当日の場合は直近値を表示。</font>
         </h2>
+
+        <canvas id="index-graph"></canvas>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
         
-        <table class="table">
+        <input type="hidden" id="indexCols" value="{{ index_cols | safe }}">
+        <input type="hidden" id="indexData" value="{{ index_data | safe }}">
+        <script src="{% static "js/factor-chart.js" %}"></script>
+        
+        <table class="table" id="index-table">
             <tr>
             {% for col in index_cols %}
                 <th>{{ col }}</th>
