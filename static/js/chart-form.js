@@ -8,7 +8,7 @@ const colorList = [
     'hotpink',
     'darkgoldenrod',
     'darkred',
-    'slategray'
+    'slategray',
 ];
 
 // extract colnames from python row colname
@@ -184,4 +184,3 @@ function makeBarGraph(colId, indexId, graphId, graphTitle, sliceNum) {
     });
     return chart;
 }
-

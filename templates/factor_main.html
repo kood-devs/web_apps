@@ -36,10 +36,9 @@
 
 {% block content %}
 <div class='container'>
-    <!-- load data -->
+    <!-- load modules -->
     <script src="{% static 'js/chart-form.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-    <script src="{% static 'js/chart-factor-app.js' %}"></script>
 
     <h2>
         <font size="5">{{ decomp_date | date:"Y年n月j日" }}の分解結果</font>
@@ -61,7 +60,10 @@
     <canvas id="asset-index-graph"></canvas>
     <input type="hidden" id="asset-index-col" value="{{ asset_index_col | safe }}">
     <input type="hidden" id="asset-index-data" value="{{ asset_index | safe }}">
-    
+
+    <!-- load js code -->
+    <script src="{% static 'js/chart-factor-app.js' %}"></script>
+
 </div>
 
 <footer class="footer mt-auto py-2">

@@ -13,7 +13,7 @@ from sklearn.linear_model import LinearRegression
 # index name
 STOCK_LIST = [
     ['SP500', '^GSPC'],  # US
-    # ['FTSE', '^FTSE'],  # UK not available...
+    ['FTSE', '^FTSE'],  # UK (not available...)
     ['GDAXI', '^GDAXI'],  # Germany
     ['N225', '^N225'],  # Japan
     ['HSI', '^HSI'],  # Hong Kong
