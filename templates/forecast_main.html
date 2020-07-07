@@ -52,7 +52,7 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            {{ prediction_date | date:"Y年 n月 j日" }}の{{ asset_name }}市場の天気予報です。
+                            {{ prediction_date | date:"Y年n月j日" }}の{{ asset_name }}市場の天気予報です。
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
                             <button type="button" class="btn btn-sm btn-outline-secondary"><font size="3">モデル詳細</font></button>
@@ -68,12 +68,12 @@
             <font size="3">　※終値ベース。当日の場合は直近値を表示。</font>
         </h2>
 
+        <script src="{% static 'js/chart-form.js' %}"></script>    
         <canvas id="index-graph"></canvas>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-        
-        <input type="hidden" id="indexCols" value="{{ index_cols | safe }}">
-        <input type="hidden" id="indexData" value="{{ index_data | safe }}">
-        <script src="{% static "js/factor-chart.js" %}"></script>
+        <input type="hidden" id="index-col" value="{{ index_cols | safe }}">
+        <input type="hidden" id="index-data" value="{{ index_data | safe }}">
+        <script src="{% static 'js/chart-forecast-app.js' %}"></script>
         
         <table class="table" id="index-table">
             <tr>

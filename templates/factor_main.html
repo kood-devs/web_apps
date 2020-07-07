@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block header %}
 <nav class="navbar navbar-expand-md">
@@ -35,89 +36,32 @@
 
 {% block content %}
 <div class='container'>
-    <h2>
-        <font size="5">20XX年X月X日の分解結果</font>
-    </h2>
-    <canvas id="factor-chart"></canvas>
+    <!-- load data -->
+    <script src="{% static 'js/chart-form.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-    {% comment %} <script type="text/javascript" src="{% static 'js/factor-chart.js' %}"></script> {% endcomment %}
-    <script>
-        var ctx = document.getElementById('factor-chart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['国内株式', '国内債券', '先進国株式', '先進国債券'],
-                datasets: [{
-                    label: 'バリュー',
-                    backgroundColor: "indianred",
-                    borderColor: "indianred",
-                    borderWidth: 1,
-                    data: [3.0, 0.5, 3.5, 1.0],
-                },
-                {
-                    label: 'サイズ',
-                    backgroundColor: "lightskyblue",
-                    borderColor: "lightskyblue",
-                    borderWidth: 1,
-                    data: [-1.0, -0.5, -1.0, -0.5],
-                },
-                {
-                    label: 'モメンタム',
-                    backgroundColor: "lightgreen",
-                    borderColor: "lightgreen",
-                    borderWidth: 1,
-                    data: [0.2, 0.1, 0.4, 0.1],
-                },
-                {
-                    label: 'クオリティ',
-                    backgroundColor: "lightyellow",
-                    borderColor: "lightyellow",
-                    borderWidth: 1,
-                    data: [1.0, 0.4, 1.1, 0.5],
-                },
-                {
-                    label: 'その他',
-                    backgroundColor: "darkgray",
-                    borderColor: "darkgray",
-                    borderWidth: 1,
-                    data: [0.1, -0.1, 0.1, -0.1],
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'ファクター分解', //グラフの見出し
-                    padding: 10
-                },
-                scales: {
-                    xAxes: [{
-                        stacked: true, //積み上げ棒グラフにする設定
-                        categoryPercentage: 0.4, //棒グラフの太さ
-                    }],
-                    yAxes: [{
-                        stacked: true, //積み上げ棒グラフにする設定
-                        scaleLabel: {                       // 軸ラベル
-                            display: true,                  // 表示設定
-                            labelString: "寄与度（％）",     // ラベル
-                            fontColor: "black",             // 文字の色
-                            fontSize: 16                    // フォントサイズ
-                        },
-                    }]
-                },
-                legend: {
-                    labels: {
-                        boxWidth: 30,
-                        padding: 20 //凡例の各要素間の距離
-                    },
-                    display: true
-                },
-                tooltips: {
-                    mode: 'label' //マウスオーバー時に表示されるtooltip
-                }
-            },
-        });
-    </script>
+    <script src="{% static 'js/chart-factor-app.js' %}"></script>
 
+    <h2>
+        <font size="5">{{ decomp_date | date:"Y年n月j日" }}の分解結果</font>
+    </h2>
+    <canvas id="factor-decomp-graph"></canvas>
+    <input type="hidden" id="factor-decomp-col" value="{{ factor_decomp_col | safe }}">
+    <input type="hidden" id="factor-decomp-data" value="{{ factor_decomp | safe }}">
+    
+    <h2>
+        <font size="5">ファクター累積リターン推移</font>
+    </h2>
+    <canvas id="factor-index-graph"></canvas>
+    <input type="hidden" id="factor-index-col" value="{{ factor_index_col | safe }}">
+    <input type="hidden" id="factor-index-data" value="{{ factor_index | safe }}">
+    
+    <h2>
+        <font size="5">資産累積リターン推移</font>
+    </h2>
+    <canvas id="asset-index-graph"></canvas>
+    <input type="hidden" id="asset-index-col" value="{{ asset_index_col | safe }}">
+    <input type="hidden" id="asset-index-data" value="{{ asset_index | safe }}">
+    
 </div>
 
 <footer class="footer mt-auto py-2">
