@@ -1,4 +1,4 @@
-### Integrated web app using django
+### Integrated web app using Django
 
 In case you access this app via aws ec2 instance, you have to run
 
