@@ -184,3 +184,37 @@ function makeBarGraph(colId, indexId, graphId, graphTitle, sliceNum) {
     });
     return chart;
 }
+
+
+function makePieChart(colId, indexId, graphId, graphTitle) {
+    // main
+    const ctx = document.getElementById(graphId).getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['国内債券', '国内株式', '先進国債券', '先進国株式'],
+            datasets: [{
+                backgroundColor: colorList.slice(0, 4),
+                data: [0.35, 0.25, 0.15, 0.25],
+            }],
+        },
+        options: {
+            title: {
+                display: true,
+                text: graphTitle,
+                padding: 5,
+            },
+            legend: {
+                labels: {
+                    boxWidth: 30,
+                    padding: 20,
+                },
+                display: true,
+            },
+            tooltips: {
+                mode: 'label',
+            },
+        },
+    });
+    return chart;
+}

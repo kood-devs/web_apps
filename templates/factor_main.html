@@ -12,7 +12,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'scrape_app:scrape_main' %}">1．ニューススクレイピングアプリ</a>
                     <a class="dropdown-item" href="{% url 'forecast_app:forecast_main' %}">2．市場天気予報アプリ</a>
-                    <a class="dropdown-item" href="{% url 'index' %}">3．市場変動要因分解アプリ</a>
+                    <a class="dropdown-item" href="{% url 'factor_app:factor_main' %}">3．市場変動要因分解アプリ</a>
                 </div>
             </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Contact</a></li>
@@ -43,26 +43,49 @@
     <h2>
         <font size="5">{{ decomp_date | date:"Y年n月j日" }}の分解結果</font>
     </h2>
-    <canvas id="factor-decomp-graph"></canvas>
-    <input type="hidden" id="factor-decomp-col" value="{{ factor_decomp_col | safe }}">
-    <input type="hidden" id="factor-decomp-data" value="{{ factor_decomp | safe }}">
-    
-    <h2>
-        <font size="5">ファクター累積リターン推移</font>
-    </h2>
-    <canvas id="factor-index-graph"></canvas>
-    <input type="hidden" id="factor-index-col" value="{{ factor_index_col | safe }}">
-    <input type="hidden" id="factor-index-data" value="{{ factor_index | safe }}">
-    
-    <h2>
-        <font size="5">資産累積リターン推移</font>
-    </h2>
-    <canvas id="asset-index-graph"></canvas>
-    <input type="hidden" id="asset-index-col" value="{{ asset_index_col | safe }}">
-    <input type="hidden" id="asset-index-data" value="{{ asset_index | safe }}">
+    <div class="btn-group d-flex" role="group" aria-label="...">
+        <a href="{% url 'factor_app:factor_main' %}" class="btn btn-secondary w-100" tabindex="-1" role="button" aria-disabled="true">データ更新</a>
+        {% comment %} <a href="{% url 'factor_app:factor_update' object.pk %}" class="btn btn-secondary w-100" tabindex="-1" role="button" aria-disabled="true">ポートフォリオ変更</a> {% endcomment %}
+        <a href="{% url 'index' %}" class="btn btn-secondary w-100" tabindex="-1" role="button" aria-disabled="true">ホームに戻る</a>
+    </div>
 
-    <!-- load js code -->
-    <script src="{% static 'js/chart-factor-app.js' %}"></script>
+    <div class="tab-wrap">
+        <input id="factor-port" type="radio" name="TAB" class="tab-switch" checked="checked"/><label class="tab-label" for="factor-port">ポートフォリオ</label>
+        <div class="tab-content">
+            <h2>
+                <font size="5">ポートフォリオ</font>
+            </h2>
+            <canvas id="port-weight-graph"></canvas>
+            <input type="hidden" id="port-weight" value="{{ port_weight | safe }}">
+            <script src="{% static 'js/chart-factor-app-port.js' %}"></script>
+        </div>
+
+        <input id="factor-asset" type="radio" name="TAB" class="tab-switch"/><label class="tab-label" for="factor-asset">個別資産</label>
+        <div class="tab-content">
+            <h2>
+                <font size="5">個別資産リスクファクター分解結果</font>
+            </h2>
+            <canvas id="factor-decomp-graph"></canvas>
+            <input type="hidden" id="factor-decomp-col" value="{{ factor_decomp_col | safe }}">
+            <input type="hidden" id="factor-decomp-data" value="{{ factor_decomp | safe }}">
+            
+            <h2>
+                <font size="5">ファクター累積リターン推移</font>
+            </h2>
+            <canvas id="factor-index-graph"></canvas>
+            <input type="hidden" id="factor-index-col" value="{{ factor_index_col | safe }}">
+            <input type="hidden" id="factor-index-data" value="{{ factor_index | safe }}">
+            
+            <h2>
+                <font size="5">資産累積リターン推移</font>
+            </h2>
+            <canvas id="asset-index-graph"></canvas>
+            <input type="hidden" id="asset-index-col" value="{{ asset_index_col | safe }}">
+            <input type="hidden" id="asset-index-data" value="{{ asset_index | safe }}">
+
+            <script src="{% static 'js/chart-factor-app-asset.js' %}"></script>
+        </div>
+    </div>
 
 </div>
 

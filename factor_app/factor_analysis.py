@@ -11,22 +11,32 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 # index name
+# STOCK_LIST = [
+#     ['SP500', '^GSPC'],  # US
+#     # ['FTSE', '^FTSE'],  # UK (not available...)
+#     ['GDAXI', '^GDAXI'],  # Germany
+#     ['N225', '^N225'],  # Japan
+#     ['HSI', '^HSI'],  # Hong Kong
+#     ['AORD', '^AORD'],  # Australia
+# ]
 STOCK_LIST = [
-    ['SP500', '^GSPC'],  # US
-    ['FTSE', '^FTSE'],  # UK (not available...)
-    ['GDAXI', '^GDAXI'],  # Germany
-    ['N225', '^N225'],  # Japan
-    ['HSI', '^HSI'],  # Hong Kong
-    ['AORD', '^AORD'],  # Australia
+    ['国内株式', '1475.T'],
+    ['先進国株式', '1657.T'],
+    ['新興国株式', '1658.T'],
 ]
 CURR_LIST = [
     ['USDJPY', 'JPY=X'],
     ['EURJPY', 'EURJPY=X'],
     ['GBPJPY', 'GBPJPY=X'],
 ]
+# TERM_LIST = [
+#     ['DGS10', 'DGS5', 'DGS2', 'DGS1MO', 'DGS3MO'],
+#     ['10yr', '5yr', '2yr', '1m', '3m'],
+# ]
 TERM_LIST = [
-    ['DGS10', 'DGS5', 'DGS2', 'DGS1MO', 'DGS3MO'],
-    ['10yr', '5yr', '2yr', '1m', '3m'],
+    ['国内債券', '2510.T'],
+    ['先進国債券', '1656.T'],
+    ['新興国債券', '2519.T'],
 ]
 
 
@@ -57,14 +67,23 @@ def get_factor_return(is_cum_index=False, num_of_days=7):
     curr_data = get_return(curr_data)
 
     # 金利
-    # https://stackoverflow.com/questions/44751510/matplotlib-us-treasury-yield-curve
-    yield_data = pdr.DataReader(TERM_LIST[0], 'fred', date_start, date_end)
-    names = dict(zip(TERM_LIST[0], TERM_LIST[1]))
-    yield_data = yield_data.rename(columns=names)
-    # yield_data = yield_data.rename(columns=names)[['3m']]
-    yield_data = yield_data.fillna(method='ffill')
-    yield_data = yield_data - yield_data.shift(1)
-    yield_data = yield_data.mean(axis=1)
+    # # FREDの金利データは速報性がなかったため採用せず
+    # # https://stackoverflow.com/questions/44751510/matplotlib-us-treasury-yield-curve
+    # yield_data = pdr.DataReader(TERM_LIST[0], 'fred', date_start, date_end)
+    # names = dict(zip(TERM_LIST[0], TERM_LIST[1]))
+    # yield_data = yield_data.rename(columns=names)
+    # # yield_data = yield_data.rename(columns=names)[['3m']]
+    # yield_data = yield_data.fillna(method='ffill')
+    # yield_data = yield_data - yield_data.shift(1)
+    # yield_data = yield_data.mean(axis=1)
+
+    # 金利
+    # 債券系ETF
+    yield_data = pd.DataFrame()
+    for elem in TERM_LIST:
+        yield_data[elem[0]] = pdr.DataReader(
+            elem[1], 'yahoo', date_start, date_end)['Close']
+    yield_data = get_return(yield_data)
 
     # データまとめ
     return_data = pd.concat(
